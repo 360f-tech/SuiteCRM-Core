@@ -17,8 +17,8 @@ main() {
 
   # copy_custom_php
 
-  log "🚀 Starting SuiteCRM Docker Entrypoint..."
-  log "⏳ Waiting for Database connection (PHP PDO with SSL)..."
+  my_log "🚀 Starting SuiteCRM Docker Entrypoint..."
+  my_log "⏳ Waiting for Database connection (PHP PDO with SSL)..."
 
   # Wait for DB ready
   local MAX_RETRIES=3
@@ -27,21 +27,21 @@ main() {
   while true; do
     RESULT=$(php "$DB_CHECK_SCRIPT")
     if [[ "$RESULT" == "EXISTS" || "$RESULT" == "EMPTY" ]]; then
-      log "✅ Database is reachable! State: $RESULT"
+      my_log "✅ Database is reachable! State: $RESULT"
       break
     fi
     COUNT=$((COUNT+1))
     if (( COUNT >= MAX_RETRIES )); then
-      log "❌ Error: Could not connect to DB after $MAX_RETRIES attempts."
+      my_log "❌ Error: Could not connect to DB after $MAX_RETRIES attempts."
       exit 1
     fi
-    log "... retrying ($COUNT/$MAX_RETRIES) ..."
+    my_log "... retrying ($COUNT/$MAX_RETRIES) ..."
     sleep 3
   done
 
   # Install or Repair
   if [[ "$RESULT" == "EMPTY" ]]; then
-    log "🚀 Database is empty. Running SuiteCRM Install..."
+    my_log "🚀 Database is empty. Running SuiteCRM Install..."
     
     DB_USER=$(php -r "echo parse_url(getenv('DATABASE_URL'), PHP_URL_USER);")
     DB_PASS=$(php -r "echo parse_url(getenv('DATABASE_URL'), PHP_URL_PASS);")
@@ -61,7 +61,7 @@ main() {
       -n;
 
     set_permissions  
-    log "✅ Install completed!"
+    my_log "✅ Install completed!"
   fi
 
   
@@ -73,24 +73,24 @@ APP_ENV=prod
 APP_SECRET=${APP_SECRET:-my-fixed-secret}
 DATABASE_URL=${DATABASE_URL:-my-fixed-url}
 EOF
-  log ".env.local created temporarily for container."
+  my_log ".env.local created temporarily for container."
 
   # Overwrite config from template
-  log "🔄 Applying stateless config.php template..."
+  my_log "🔄 Applying stateless config.php template..."
   cp /var/www/html/SuiteCRM/public/legacy/config_template.php /var/www/html/SuiteCRM/public/legacy/config.php
   cp /var/www/html/SuiteCRM/public/legacy/config_override_template.php /var/www/html/SuiteCRM/public/legacy/config_override.php
 
   su -s /bin/bash www-data -c "php /var/www/html/SuiteCRM/public/legacy/repair.php"
 
 if [[ "$1" == *"nginx"* ]]; then
-      log "📡 Nginx detected! Starting PHP-FPM in background first..."
+      my_log "📡 Nginx detected! Starting PHP-FPM in background first..."
       php-fpm -D
       
-      log "🌐 Now starting Nginx as the main process..."
+      my_log "🌐 Now starting Nginx as the main process..."
       exec "$@"
   else
       # If CMD is "php-fpm" (default) or any, run as normal
-      log "🚀 Running command: $@"
+      my_log "🚀 Running command: $@"
       exec "$@"
   fi
 }
