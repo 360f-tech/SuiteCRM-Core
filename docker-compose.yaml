@@ -64,7 +64,15 @@ services:
       # For local development, you can mount your code and uploads to persist data and speed up development.
       # - ./suitecrm_data:/var/www/html/SuiteCRM
       - ./suitecrm_uploads:/var/www/html/SuiteCRM/public/legacy/upload
-
+  nginx_proxy:
+    image: nginx:1.26-alpine
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./.docker/nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - suitecrm_network
 volumes:
   suitecrm_var_cache:
   suitecrm_legacy_cache:
