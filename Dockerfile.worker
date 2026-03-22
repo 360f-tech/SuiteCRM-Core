@@ -19,9 +19,9 @@ COPY SuiteCRM-8.9.2.zip .
 RUN unzip -q SuiteCRM-8.9.2.zip -d SuiteCRM \
     && rm SuiteCRM-8.9.2.zip
 
-COPY .docker/custom_fixes/ SuiteCRM/
-COPY .docker/custom_packages/Extension/ SuiteCRM/public/legacy/custom/Extension/
-COPY .docker/custom_packages/include/ SuiteCRM/public/legacy/custom/include/
+COPY docker/custom_fixes/ SuiteCRM/
+COPY docker/custom_packages/Extension/ SuiteCRM/public/legacy/custom/Extension/
+COPY docker/custom_packages/include/ SuiteCRM/public/legacy/custom/include/
 
 RUN find SuiteCRM -type d -exec chmod 2755 {} \;
 RUN find SuiteCRM -type f -exec chmod 0644 {} \;
@@ -48,10 +48,10 @@ COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder --chown=www-data:www-data /tmp/build/ /var/www/html/
 
 # System configuration
-COPY .docker/php/suitecrm.ini $PHP_INI_DIR/conf.d/suitecrm-custom.ini
-COPY .docker/nginx/full-stack.conf /etc/nginx/http.d/default.conf
-COPY .docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-COPY .docker/entrypoint-utils.sh /usr/local/bin/entrypoint-utils.sh
+COPY docker/php/suitecrm.ini $PHP_INI_DIR/conf.d/suitecrm-custom.ini
+COPY docker/nginx/full-stack.conf /etc/nginx/http.d/default.conf
+COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker/entrypoint-utils.sh /usr/local/bin/entrypoint-utils.sh
 
 # Comment out this if you're running in local dev and want to mount code
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && chmod +x SuiteCRM/bin/console

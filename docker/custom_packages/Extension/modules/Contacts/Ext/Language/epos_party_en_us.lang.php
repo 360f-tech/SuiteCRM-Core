@@ -30,7 +30,7 @@ $mod_strings = array (
   'LBL_IS_SMOKER' => 'Is Smoker',
   'LBL_AGE' => 'Age',
 
-  'LBL_OCCUPATION' => 'Occupation',
+  // 'LBL_OCCUPATION' => 'Occupation',
   'LBL_EMPLOYER_FULL_ADDRESS' => 'Employer Full Address',
   'LBL_EMPLOYER_MOBILE' => 'Employer Mobile',
   'LBL_PARTY_SOURCE' => 'Party Source',
