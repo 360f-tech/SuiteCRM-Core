@@ -1,14 +1,12 @@
 <?php
 
 $fields = [
-
 'bank_account_holder_name' => ['type'=>'varchar','len'=>'50'],
 'bank_account_number' => ['type'=>'varchar','len'=>'50'],
 'employer_name' => ['type'=>'varchar','len'=>'100'],
 'employee_payroll_number' => ['type'=>'varchar','len'=>'50'],
 'employer_mobile' => ['type'=>'varchar','len'=>'50'],
-'employee_payroll_number' => ['type'=>'varchar','len'=>'50'],
-];;
+];
 
 foreach ($fields as $name => $def) {
 

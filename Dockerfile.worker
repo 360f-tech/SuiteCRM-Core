@@ -15,21 +15,15 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 WORKDIR /tmp/build
 
-COPY .docker/custom_packages/ ./custom_packages
-COPY .docker/scripts ./docker/scripts
-
 COPY SuiteCRM-8.9.2.zip .
 RUN unzip -q SuiteCRM-8.9.2.zip -d SuiteCRM \
     && rm SuiteCRM-8.9.2.zip
 
 COPY .docker/custom_fixes/ SuiteCRM/
+COPY .docker/custom_packages/* SuiteCRM/public/legacy/custom/
 
-RUN cp -rn custom_packages/Extension/* SuiteCRM/public/legacy/custom/Extension/ \
-    && cp -rn custom_packages/include/* SuiteCRM/public/legacy/custom/include/
-
-RUN rm -rf custom_packages \
-    && find SuiteCRM -type d -exec chmod 2755 {} \; \
-    && find SuiteCRM -type f -exec chmod 0644 {} \;
+RUN find SuiteCRM -type d -exec chmod 2755 {} \;
+RUN find SuiteCRM -type f -exec chmod 0644 {} \;
 
 ###########################
 # Stage 2: Production

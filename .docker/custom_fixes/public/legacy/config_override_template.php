@@ -6,3 +6,5 @@
 // $sugar_config['external_cache_disabled_redis'] = false;
 $sugar_config['external_cache_disabled'] = false;
 $sugar_config['external_cache_class'] = 'SugarCacheAPC';
+$sugar_config['http_referer']['list'][] = 'dev-epos-crm.360f.com';
+$sugar_config['http_referer']['actions'] = array('index', 'ListView', 'DetailView', 'EditView', 'oauth', 'authorize', 'Authenticate', 'Login', 'SupportPortal', 'Upgrade');

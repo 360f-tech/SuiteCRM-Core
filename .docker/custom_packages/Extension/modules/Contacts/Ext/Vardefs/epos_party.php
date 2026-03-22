@@ -1,7 +1,6 @@
 <?php
 
 $fields = [
-
 'middle_name' => ['type'=>'varchar','len'=>'100'],
 'alternate_name' => ['type'=>'varchar','len'=>'100'],
 
@@ -23,10 +22,10 @@ $fields = [
 'mobile_country_code' => ['type'=>'varchar','len'=>'10'],
 'alt_mobile_country_code' => ['type'=>'varchar','len'=>'10'],
 
-'address_full_address' => ['type'=>'varchar','len'=>'255'],
-'address_unit_number' => ['type'=>'varchar','len'=>'100'],
-'address_building_number' => ['type'=>'varchar','len'=>'100'],
-'address_district' => ['type'=>'varchar','len'=>'100'],
+'primary_address_full_address' => ['type'=>'varchar','len'=>'255'],
+'primary_address_unit_number' => ['type'=>'varchar','len'=>'100'],
+'primary_address_building_number' => ['type'=>'varchar','len'=>'100'],
+'primary_address_district' => ['type'=>'varchar','len'=>'100'],
 
 'employer_name' => ['type'=>'varchar','len'=>'100'],
 'employer_email' => ['type'=>'varchar','len'=>'100'],
@@ -50,7 +49,6 @@ $fields = [
 'ext_party_type' => ['type'=>'varchar','len'=>'50'],
 
 'verification_data' => ['type'=>'text'],
-
 ];;
 
 foreach ($fields as $name => $def) {

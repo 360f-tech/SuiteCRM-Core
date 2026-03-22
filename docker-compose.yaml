@@ -41,8 +41,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.gateway
-    ports:
-      - "8080:80"
     depends_on:
       - worker
     networks:
@@ -69,8 +67,10 @@ services:
     container_name: nginx_proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./.docker/nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./.docker/nginx/ssl:/etc/nginx/ssl:ro
     networks:
       - suitecrm_network
 volumes:
