@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:8
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  mysql:
+    image: mysql:9.5
+    environment:
+      - MYSQL_CLIENT_ENABLE_SSL=yes
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=suitecrm
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mysql_data:/mysql/data'  
+    networks:
+      - suitecrm_network  
+  worker:
+    image: suitecrm_worker:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    networks:
+      - suitecrm_network  
+    container_name: suitecrm_worker
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    volumes:
+      - ./suitecrm_uploads:/var/www/html/SuiteCRM/public/legacy/upload
+      - ./logs/apache2:/var/log/apache2
+      - ./logs/php:/var/log/php
+  gateway:
+    image: suitecrm_gateway:latest
+    container_name: suitecrm_gateway
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+      - "8080:80"
+    depends_on:
+      - worker
+    networks:
+      - suitecrm_network
+  web:
+    image: suitecrm_web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: suitecrm_web
+    command: nginx -g "daemon off;"
+    env_file:
+      - .env.dev
+    ports:
+      - "8081:80"
+    networks:
+      - suitecrm_network
+    volumes:
+      # For local development, you can mount your code and uploads to persist data and speed up development.
+      # - ./suitecrm_data:/var/www/html/SuiteCRM
+      - ./suitecrm_uploads:/var/www/html/SuiteCRM/public/legacy/upload
+
+volumes:
+  suitecrm_var_cache:
+  suitecrm_legacy_cache:
+networks:
+  suitecrm_network:
+    driver: bridge
