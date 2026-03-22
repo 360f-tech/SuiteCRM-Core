@@ -20,7 +20,8 @@ RUN unzip -q SuiteCRM-8.9.2.zip -d SuiteCRM \
     && rm SuiteCRM-8.9.2.zip
 
 COPY .docker/custom_fixes/ SuiteCRM/
-COPY .docker/custom_packages/* SuiteCRM/public/legacy/custom/
+COPY .docker/custom_packages/Extension/ SuiteCRM/public/legacy/custom/Extension/
+COPY .docker/custom_packages/include/ SuiteCRM/public/legacy/custom/include/
 
 RUN find SuiteCRM -type d -exec chmod 2755 {} \;
 RUN find SuiteCRM -type f -exec chmod 0644 {} \;
