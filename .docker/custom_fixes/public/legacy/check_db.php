@@ -45,7 +45,6 @@ function check_db()
 
   try {
     $dsn = "mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4";
-    fwrite(STDERR, "[DEBUG] Connecting with DSN: $dsn\n");
     $pdo = new PDO($dsn, $user, $pass, $driverOptions);
     fwrite(STDERR, "[DEBUG] Connected to DB, checking for 'users' table...\n");
     $stmt = $pdo->query("SHOW TABLES LIKE 'users'");
