@@ -27,19 +27,23 @@ services:
       - suitecrm_network  
     container_name: suitecrm_worker
     restart: unless-stopped
+    command: php-fpm # Start php-fpm, no web server needed for worker
+    ports:
+      - "9000:9000"
     env_file:
       - .env.dev
     volumes:
       - ./suitecrm_uploads:/var/www/html/SuiteCRM/public/legacy/upload
       - ./logs/apache2:/var/log/apache2
       - ./logs/php:/var/log/php
+      - ./logs/suitecrm:/var/www/html/SuiteCRM/logs
   web:
     image: suitecrm_web:latest
     build:
       context: .
       dockerfile: Dockerfile.worker
     container_name: suitecrm_web
-    command: nginx -g "daemon off;"
+    command: nginx -g "daemon off;" # Start php-fpm & nginx in the foreground
     env_file:
       - .env.dev
     ports:
@@ -47,10 +51,12 @@ services:
     networks:
       - suitecrm_network
     volumes:
+      - ./docker/nginx/full-stack.conf:/etc/nginx/http.d/default.conf:ro
       # For local development, you can mount your code and uploads to persist data and speed up development.
       # - ./suitecrm_data:/var/www/html/SuiteCRM
       - ./suitecrm_uploads:/var/www/html/SuiteCRM/public/legacy/upload
       - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/zz-custom.conf:ro
+      - ./logs/suitecrm:/var/www/html/SuiteCRM/logs
   nginx_proxy:
     image: nginx:1.26-alpine
     container_name: nginx_proxy

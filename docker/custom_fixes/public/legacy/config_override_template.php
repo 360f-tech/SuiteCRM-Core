@@ -10,3 +10,6 @@ $sugar_config['disable_persistent_connections'] = false;
 $sugar_config['developerMode'] = false;
 $sugar_config['http_referer']['list'][] = 'dev-epos-crm.360f.com';
 // $sugar_config['http_referer']['actions'] = array('index', 'ListView', 'DetailView', 'EditView', 'oauth', 'authorize', 'Authenticate', 'Login', 'SupportPortal', 'Upgrade');
+
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+ini_set('display_errors', 0);

@@ -67,20 +67,24 @@ main() {
   
   write_oauth2_keys
 
-  local ENV_FILE="$APP_DIR/.env.local"
-  cat <<EOF > "$ENV_FILE"
-APP_ENV=prod
-APP_SECRET=${APP_SECRET:-my-fixed-secret}
-DATABASE_URL=${DATABASE_URL:-my-fixed-url}
-EOF
-  my_log ".env.local created temporarily for container."
+#   local ENV_FILE="$APP_DIR/.env.local"
+#   cat <<EOF > "$ENV_FILE"
+# APP_ENV=prod
+# APP_SECRET=${APP_SECRET:-my-fixed-secret}
+# DATABASE_URL=${DATABASE_URL:-my-fixed-url}
+# EOF
+#   my_log ".env.local created temporarily for container."
 
   # Overwrite config from template
   my_log "🔄 Applying stateless config.php template..."
-  cp /var/www/html/SuiteCRM/public/legacy/config_template.php /var/www/html/SuiteCRM/public/legacy/config.php
-  cp /var/www/html/SuiteCRM/public/legacy/config_override_template.php /var/www/html/SuiteCRM/public/legacy/config_override.php
+  CONF_DIR="/var/www/html/SuiteCRM/public/legacy"
 
-  su -s /bin/bash www-data -c "php /var/www/html/SuiteCRM/public/legacy/repair.php"
+  cp "$CONF_DIR/config_template.php" "$CONF_DIR/config.php"
+  cp "$CONF_DIR/config_override_template.php" "$CONF_DIR/config_override.php"
+
+  chown www-data:www-data "$CONF_DIR"/config{,_override}.php
+
+  su -s /bin/bash www-data -c "php $CONF_DIR/repair.php"
 
 if [[ "$1" == *"nginx"* ]]; then
       my_log "📡 Nginx detected! Starting PHP-FPM in background first..."
