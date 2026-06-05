@@ -119,7 +119,7 @@
     "symfony/yaml": "6.4.*",
     "tecnickcom/tcpdf": "6.8.2",
     "tedivm/jshrink": "^1.3",
-    "tinymce/tinymce": "^5.10",
+    "tinymce/tinymce": "^7.9",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "3.11.*",
     "vich/uploader-bundle": "^2.7",
