@@ -14513,7 +14513,7 @@ __metadata:
     primeng: "npm:^17.18.15"
     rxjs: "npm:^7.8.2"
     squire-rte: "npm:^2.4.2"
-    tinymce: "npm:^7.9.1"
+    tinymce: "npm:^7.9.3"
     tslib: "npm:^2.8.1"
     typescript: "npm:~5.4.5"
     webpack: "npm:~5.95.0"
@@ -14692,10 +14692,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinymce@npm:^7.9.1":
-  version: 7.9.1
-  resolution: "tinymce@npm:7.9.1"
-  checksum: 10c0/eaf0c6c53c4726a3ad1e185dc2128adc77a24d73b516d3a6fa392dfad2b1f7ae46dd658d19dbc605df5d5ef41b32bacdb8e37333967d3af26603742c54ad2c8d
+"tinymce@npm:^7.9.3":
+  version: 7.9.3
+  resolution: "tinymce@npm:7.9.3"
+  checksum: 10c0/37f6661fe242264f3db6a805e22cefce0ecbc3c9c23db274733e275eb1e4663e337385ce9feac0e1a389fe32ceb844dd981d35f489158cce91d5e8cea3ca396b
   languageName: node
   linkType: hard
 
